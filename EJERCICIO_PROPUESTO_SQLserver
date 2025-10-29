@@ -1,0 +1,39 @@
+-- 1.- Enunciado: Mostrar el id y el nombre de todos los trámites (nombreT) que fueron iniciados por el solicitante 'José Pérez'.
+SELECT idT, nombreT
+FROM tTramite
+WHERE idS IN (SELECT idS 
+              FROM tSolicitante 
+              WHERE nombresS = 'José' AND paternoS = 'Pérez');
+
+-- 2.- Enunciado: Mostrar el id y la denominación de las oficinas que aún no han recibido ningún trámite.
+SELECT idO, denominacionO
+FROM tOficina
+WHERE idO NOT IN (SELECT idO FROM tTramite);
+
+-- 3.- Enunciado: Mostrar el nombre de los conceptos que han sido pagados por solicitantes de tipo 'EST' (Estudiante).
+
+SELECT denominacionC
+FROM tConcepto
+WHERE idC IN (SELECT idC 
+              FROM tRecibo 
+              WHERE idS IN (SELECT idS 
+                            FROM tSolicitante 
+                            WHERE tipoS = 'EST'));
+
+-- 4.- Enunciado: Mostrar los nombres y apellidos de los solicitantes que presentaron trámites en la 'Decanatura de Ingeniería'.
+
+SELECT nombresS, paternoS, maternoS
+FROM tSolicitante
+WHERE idS IN (SELECT idS 
+              FROM tTramite 
+              WHERE idO IN (SELECT idO 
+                            FROM tOficina 
+                            WHERE denominacionO = 'Decanatura de Ingeniería'));
+
+-- 5.- Enunciado: Mostrar los nombres de los trámites (nombreT) que están vinculados al pago del recibo 'R005'.
+
+SELECT nombreT
+FROM tTramite
+WHERE idT IN (SELECT idT 
+              FROM tRecibo_Tramite 
+              WHERE idR = 'R005');
